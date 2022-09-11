@@ -1,4 +1,3 @@
-import { brain } from "./brain.js"
 import { point } from "./point.js"
 
 
@@ -8,13 +7,14 @@ export class snake {
     body = []
     vector = 1
 
-    constructor(x, y, board, color = 'blue',vector = 1){
+    constructor(brain, x, y, board, color = 'blue',vector = 1){
 
         this.vector = vector
         this.newHead(x, y)
         this.world = board
         this.color = color
         
+        this.brain = brain
 
 
         // const xPos = this.pointof(3, -1)
@@ -110,13 +110,13 @@ export class snake {
         const c = this.world.isset(this.pointof(0, +1))
 
 	
-        return [applfront, applside, a, b, c]
+        return [Math.min(applfront, 10), Math.min(applside, 10), a, b, c]
     }
 
 
     think(){
         const insert = this.find()
-        const newVector = this.vector + brain.getVector(insert)
+        const newVector = this.vector + this.brain.getVector(insert)
         if (newVector>4)
             this.vector = 1
         else if (newVector<1)
